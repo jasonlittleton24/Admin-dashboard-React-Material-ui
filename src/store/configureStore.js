@@ -2,9 +2,7 @@ import {
   createStore, combineReducers, applyMiddleware, compose,
 } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-
 import authReducer from '../reducers/auth';
-import rootSaga from '../sagas';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,7 +18,7 @@ export default () => {
   );
 
   // Run saga middleware
-  sagaMiddleware.run(rootSaga);
+  // sagaMiddleware.run(saga);
 
   return store;
 };

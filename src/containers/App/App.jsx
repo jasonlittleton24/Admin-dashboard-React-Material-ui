@@ -1,10 +1,8 @@
-// Node modules
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-// Layout and Design COmponents
+// Layout
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,7 +16,6 @@ import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ExitToApp from '@material-ui/icons/ExitToApp';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles';
 
 // Routes
@@ -27,9 +24,6 @@ import Routes from './routes';
 
 // Components
 import Sidebar from '../Sidebar';
-
-// Actions
-import { logout } from '../../actions/auth';
 
 // Dashboard style
 const drawerWidth = 240;
@@ -115,37 +109,37 @@ const styles = {
 
 class App extends Component {
   state = {
-    menuDrawerOpen: true,
+    open: true,
   }
 
   handleDrawerOpen = () => {
     this.setState({
-      menuDrawerOpen: true,
+      open: true,
     });
   }
 
   handleDrawerClose = () => {
     this.setState({
-      menuDrawerOpen: false,
+      open: false,
     });
   }
 
   render() {
     // Extract URL from props
-    const { classes, match, doLogout } = this.props;
-    const { menuDrawerOpen } = this.state;
+    const { classes, match } = this.props;
+    const { open } = this.state;
 
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="absolute" className={clsx(classes.appBar, menuDrawerOpen && classes.appBarShift)}>
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={clsx(classes.menuButton, menuDrawerOpen && classes.menuButtonHidden)}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
             >
               <MenuIcon />
             </IconButton>
@@ -157,20 +151,14 @@ class App extends Component {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={doLogout}
-            >
-              <ExitToApp />
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
           variant="permanent"
           classes={{
-            paper: clsx(classes.drawerPaper, !menuDrawerOpen && classes.drawerPaperClose),
+            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
           }}
-          open={menuDrawerOpen}
+          open={open}
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={this.handleDrawerClose}>
@@ -211,12 +199,6 @@ App.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
-  doLogout: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  doLogout: () => dispatch(logout()),
-});
-
-// More than one we must use compose
-export default connect(null, mapDispatchToProps)(withStyles(styles)(App));
+export default withStyles(styles)(App);

@@ -1,21 +1,12 @@
-import { getAccessToken } from '../helpers/utility';
+import authActions from '../actions/auth';
 
-const defaultState = {
-  accessToken: getAccessToken(),
-  loginError: null,
-};
-
-export default (state = defaultState, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case authActions.LOGIN:
       return {
-        accessToken: action.accessToken,
+        uid: action.uid,
       };
-    case 'LOGIN_ERROR':
-      return {
-        loginError: action.error,
-      };
-    case 'LOGOUT':
+    case authActions.LOGOUT:
       return {};
     default:
       return state;
